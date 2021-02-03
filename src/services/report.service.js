@@ -1,10 +1,10 @@
-const authHeader = require('..helpers');
+import { authHeader } from '../helpers';
 const config = { apiUrl: process.env.REACT_APP_API_URL };
 
 export const reportService = {
     getReports,
     getAdminReports,
-    addReport,
+    createReport,
     updateReport,
     deleteReport
 }
@@ -15,7 +15,7 @@ function getReports(location) {
         body: JSON.stringify(location)
     }
 
-    return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse)
+    return fetch(`${config.apiUrl}/reports/`, requestOptions).then(handleResponse)
 }
 
 function getAdminReports(authorityId) {
@@ -27,7 +27,7 @@ function getAdminReports(authorityId) {
     return fetch(`${config.apiUrl}/authority/${authorityId}/reports/`, requestOptions).then(handleResponse)
 }
 
-function addReport(report) {
+function createReport(report) {
     const requestOptions = {
         method: 'POST',
         body: JSON.stringify(report)
@@ -43,7 +43,7 @@ function updateReport(authorityId, report) {
         header: authHeader()
     }
 
-    return fetch(`${config.apiURL}/authority/${authorityId}/reports/${report.id}/update`, 
+    return fetch(`${config.apiUrl}/authority/${authorityId}/reports/${report.id}/update`, 
         requestOptions).then(handleResponse)
 }
 
@@ -53,7 +53,7 @@ function deleteReport(authorityId, reportId) {
         header: authHeader()
     }
 
-    return fetch(`${config.apiUrl}/authority/${authorityId}/reports/${report.id}/delete`, 
+    return fetch(`${config.apiUrl}/authority/${authorityId}/reports/${reportId}/delete`, 
         requestOptions).then(handleResponse)
 }
 
