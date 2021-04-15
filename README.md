@@ -5,10 +5,10 @@ RMend-Backend is the frontend web console for the RMend SaaS. Its goal is to giv
 
 ## Usage example
 
-A typical example for how the RMend web works is...
+A typical example of how the RMend web works are...
 1. Logging an authority admin in
 2. Getting that users authority data like employees, reports, etc.
-3. Displaying the found informatiob
+3. Displaying the found information
 4. Allowing admin to update and delete reports and other similar data
 
 ## Development setup
