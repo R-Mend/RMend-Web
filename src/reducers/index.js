@@ -1,3 +1,5 @@
-import { combineReducers } from 'redux';
-import { report } from './report.reducer.js';
-export default combineReducers({report});
+import { combineReducers } from "redux";
+import { alert } from "./alert.reducer.js";
+import { report } from "./report.reducer.js";
+import { auth } from "./auth.reducer.js";
+export default combineReducers({ alert, report, auth });

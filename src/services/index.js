@@ -1,1 +1,2 @@
-export { reportService } from './report.service.js';
+export { authService } from "./auth.service.js";
+export { reportService } from "./report.service.js";

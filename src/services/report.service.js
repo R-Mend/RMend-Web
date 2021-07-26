@@ -1,4 +1,4 @@
-import { authHeader } from '../helpers';
+import { authHeader } from "../helpers";
 const config = { apiUrl: process.env.REACT_APP_API_URL };
 
 export const reportService = {
@@ -6,63 +6,63 @@ export const reportService = {
     getAdminReports,
     createReport,
     updateReport,
-    deleteReport
-}
+    deleteReport,
+};
 
 function getReports(location) {
     const requestOptions = {
-        method: 'GET',
-        body: JSON.stringify(location)
-    }
+        method: "GET",
+        body: JSON.stringify(location),
+        headers: authHeader(),
+    };
 
-    return fetch(`${config.apiUrl}/reports/`, requestOptions).then(handleResponse)
+    return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
 }
 
-function getAdminReports(authorityId) {
+function getAdminReports() {
     const requestOptions = {
-        method: 'GET',
-        header: authHeader()
-    }
+        method: "GET",
+        headers: authHeader(),
+    };
 
-    return fetch(`${config.apiUrl}/authority/${authorityId}/reports/`, requestOptions).then(handleResponse)
+    return fetch(`${config.apiUrl}/authority/reports/`, requestOptions).then(handleResponse);
 }
 
 function createReport(report) {
     const requestOptions = {
-        method: 'POST',
-        body: JSON.stringify(report)
-    }
-
-    return fetch(`${config.apiUrl}/reports/create`, requestOptions).then(handleResponse)
-}
-
-function updateReport(authorityId, report) {
-    const requestOptions = {
-        method: 'PUT',
+        method: "POST",
         body: JSON.stringify(report),
-        header: authHeader()
-    }
+        headers: authHeader(),
+    };
 
-    return fetch(`${config.apiUrl}/authority/${authorityId}/reports/${report.id}/update`, 
-        requestOptions).then(handleResponse)
+    return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
 }
 
-function deleteReport(authorityId, reportId) {
+function updateReport(report) {
     const requestOptions = {
-        method: 'DELETE',
-        header: authHeader()
-    }
+        method: "PUT",
+        body: JSON.stringify(report),
+        headers: authHeader(),
+    };
 
-    return fetch(`${config.apiUrl}/authority/${authorityId}/reports/${reportId}/delete`, 
-        requestOptions).then(handleResponse)
+    return fetch(`${config.apiUrl}/authority/reports/${report.id}`, requestOptions).then(handleResponse);
+}
+
+function deleteReport(reportId) {
+    const requestOptions = {
+        method: "DELETE",
+        headers: authHeader(),
+    };
+
+    return fetch(`${config.apiUrl}/authority/reports/${reportId}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
-    return response.text().then(text => {
+    return response.text().then((text) => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
-            if (response.status == 401) {
-                window.location.reload();
+            if (response.status === 401) {
+                console.log("NOT LOGGED IN");
             }
 
             const error = (data && data.message) || response.statusText;
