@@ -35,6 +35,10 @@ body {
     height: 100%;
 }
 
+.alert {
+    z-index: 1000;
+}
+
 .list-group {
     overflow-y: auto;
 }
@@ -148,4 +152,8 @@ body {
     display: flex;
     background-color: #ff3131;
     color: white;
+}
+
+.react-tabs__tab-list {
+    border-bottom: 0 !important;
 }

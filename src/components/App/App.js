@@ -7,6 +7,7 @@ import { PrivateRoute } from "../PrivateRoute";
 import { Navbar } from "../Navbar";
 import LoginPage from "../LoginPage";
 import ReportsPage from "../ReportsPage";
+import UsersPage from "../UsersPage";
 
 function App() {
     const alert = useSelector((state) => state.alert);
@@ -21,12 +22,17 @@ function App() {
     });
 
     return (
-        <div className="h-100 d-flex justify-content-center" style={{ paddingTop: "56px" }}>
+        <div className="h-100 d-flex justify-content-center" style={{ paddingTop: "58px" }}>
             <Navbar />
-            {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+            {alert.message && (
+                <div style={{ position: "absolute", left: "50%;" }}>
+                    <div className={`alert ${alert.type}`}>{alert.message}</div>
+                </div>
+            )}
             <Switch>
                 <Route exact path="/login" component={LoginPage} />
                 <PrivateRoute exact path="/" component={ReportsPage} />
+                <PrivateRoute exact path="/users" component={UsersPage} />
                 <Redirect from="*" to="/" />
             </Switch>
         </div>

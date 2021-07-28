@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { Route, Link, useHistory } from "react-router-dom";
+import { Route, Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../actions";
 
 export function Navbar(props) {
+    const location = useLocation();
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -12,27 +13,40 @@ export function Navbar(props) {
     });
 
     useEffect(() => {
-        if (!loggedIn) {
+        if (!loggedIn && location.pathname != "/login") {
             history.push("/login");
         }
     });
 
-    const logOut = () => {
+    const logout = () => {
         dispatch(authActions.logout());
     };
 
     return (
-        <nav className="navbar fixed-top navbar-dark bg-secondary">
+        <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-secondary">
             <Link to="/" className="navbar-brand">
                 RMend
             </Link>
-            <ul className="nav navbar-right d-flex flex-row">
-                {loggedIn && (
-                    <button className="btn btn-sm btn-light" onClick={logOut}>
-                        Logout
-                    </button>
-                )}
-            </ul>
+
+            {loggedIn && (
+                <ul className="navbar-nav mr-auto mt-2">
+                    <li className="nav-item active">
+                        <Link to="/" className="nav-link">
+                            Reports <span className="sr-only">(current)</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/users" className="nav-link">
+                            Users
+                        </Link>
+                    </li>
+                </ul>
+            )}
+            {loggedIn && (
+                <button className="btn btn-sm btn-light" onClick={logout}>
+                    Logout
+                </button>
+            )}
         </nav>
     );
 }
