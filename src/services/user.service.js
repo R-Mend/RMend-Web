@@ -40,7 +40,7 @@ function updateUsersAccessLevel(userId, accessLevel) {
     const requestOptions = {
         method: "PUT",
         body: JSON.stringify({ access_level: accessLevel }),
-        headers: authHeader(),
+        headers: { ...authHeader(), "Content-Type": "application/json" },
     };
 
     return fetch(`${config.apiUrl}/authority/users/${userId}`, requestOptions).then(handleResponse);

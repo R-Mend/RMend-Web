@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
 import { userActions } from "../../actions";
+import UserRow from "./UserRow";
 
 function UsersPage() {
     const dispatch = useDispatch();
@@ -25,6 +26,10 @@ function UsersPage() {
 
     const getUsers = () => {
         dispatch(userActions.getAuthorityUsers());
+    };
+
+    const updateUser = (userId, access_level) => {
+        dispatch(userActions.updateUsersAccessLevel(userId, access_level));
     };
 
     return (
@@ -50,22 +55,7 @@ function UsersPage() {
                             </thead>
                             <tbody>
                                 {users.map((user) => (
-                                    <tr className="table-row rounded-pill" key={user._id}>
-                                        <td className="text-nowrap">{user["_id"]}</td>
-                                        <td className="text-nowrap">{user["username"]}</td>
-                                        <td className="text-nowrap">{user["email"]}</td>
-                                        <td className="text-nowrap">{user["access_level"]}</td>
-                                        <td>
-                                            <button className="icon-button delete-user disabled">
-                                                <span className="material-icons">save</span>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button className="icon-button delete-user">
-                                                <span className="material-icons">delete</span>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <UserRow user={user} key={user["_id"]} />
                                 ))}
                             </tbody>
                         </table>

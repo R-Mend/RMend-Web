@@ -25,7 +25,7 @@ function App() {
         <div className="h-100 d-flex justify-content-center" style={{ paddingTop: "58px" }}>
             <Navbar />
             {alert.message && (
-                <div style={{ position: "absolute", left: "50%;" }}>
+                <div style={{ position: "absolute" }}>
                     <div className={`alert ${alert.type}`}>{alert.message}</div>
                 </div>
             )}
