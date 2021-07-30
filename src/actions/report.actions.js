@@ -88,11 +88,11 @@ function createReport(report) {
     }
 }
 
-function updateReport(newReport) {
+function updateReport(reportId, newReport) {
     return (dispatch) => {
         dispatch(request());
 
-        return reportService.updateReport(newReport).then(
+        return reportService.updateReport(reportId, newReport).then(
             (response) => {
                 dispatch(success(response.report));
             },

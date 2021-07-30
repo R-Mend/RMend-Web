@@ -32,20 +32,20 @@ function createReport(report) {
     const requestOptions = {
         method: "POST",
         body: JSON.stringify(report),
-        headers: authHeader(),
+        headers: { ...authHeader(), "Content-Type": "application/json" },
     };
 
     return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
 }
 
-function updateReport(report) {
+function updateReport(reportId, report) {
     const requestOptions = {
         method: "PUT",
         body: JSON.stringify(report),
-        headers: authHeader(),
+        headers: { ...authHeader(), "Content-Type": "application/json" },
     };
 
-    return fetch(`${config.apiUrl}/authority/reports/${report.id}`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/authority/reports/${reportId}`, requestOptions).then(handleResponse);
 }
 
 function deleteReport(reportId) {

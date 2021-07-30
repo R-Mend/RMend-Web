@@ -41,12 +41,12 @@ export function report(state = initalState, action) {
         case reportConstants.UPDATE_REPORT_SUCCESS:
             return {
                 ...state,
-                reports: state.reports.map((report) => (report.id === action.report.id ? action.report : report)),
+                reports: state.reports.map((report) => (report._id === action.report._id ? action.report : report)),
             };
         case reportConstants.DELETE_REPORT_SUCCESS:
             return {
                 ...state,
-                reports: state.reports.filter((report) => report.id !== action.reportId),
+                reports: state.reports.filter((report) => report._id !== action.reportId),
             };
         default:
             return state;

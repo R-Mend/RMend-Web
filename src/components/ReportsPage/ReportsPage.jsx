@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
 import { reportActions } from "../../actions/report.actions";
+import ReportRow from "./ReportRow";
 
 function ReportsPage() {
     const dispatch = useDispatch();
@@ -24,12 +25,12 @@ function ReportsPage() {
 
     return (
         <div className="col-8 d-flex flex-column">
-            <Tabs className="pt-5">
+            <Tabs className="pt-5 d-flex flex-column flex-grow-1">
                 <TabList>
                     <Tab>Reports</Tab>
                 </TabList>
 
-                <TabPanel>
+                <TabPanel className="d-flex flex-grow-1">
                     <div className="table-responsive flex-grow-1" style={{ overflowY: "scroll" }}>
                         <table id="data" className="table table-borderless">
                             <thead className="bg-primary border-bottom">
@@ -44,56 +45,7 @@ function ReportsPage() {
                             </thead>
                             <tbody>
                                 {reports.map((report) => (
-                                    <tr className="table-row rounded-pill" key={report._id}>
-                                        <td className="text-nowrap text-center">
-                                            {report.priority && (
-                                                <button
-                                                    className="icon-button text-success"
-                                                    title="deactivate user"
-                                                    style={{ cursor: "pointer" }}
-                                                >
-                                                    <span className="material-icons">radio_button_checked</span>
-                                                </button>
-                                            )}
-                                            {!report.priority && (
-                                                <button
-                                                    className="icon-button"
-                                                    title="activate user"
-                                                    style={{ cursor: "pointer" }}
-                                                >
-                                                    <span className="material-icons">radio_button_unchecked</span>
-                                                </button>
-                                            )}
-                                        </td>
-                                        <td className="text-nowrap">{report["title"]}</td>
-                                        <td className="text-nowrap">{report["details"]}</td>
-                                        <td className="text-nowrap">{report["author"]}</td>
-                                        <td className="text-nowrap text-center">
-                                            {report.in_review && (
-                                                <button
-                                                    className="icon-button text-warning"
-                                                    title="deactivate user"
-                                                    style={{ cursor: "pointer" }}
-                                                >
-                                                    <span className="material-icons">radio_button_checked</span>
-                                                </button>
-                                            )}
-                                            {!report.in_review && (
-                                                <button
-                                                    className="icon-button"
-                                                    title="activate user"
-                                                    style={{ cursor: "pointer" }}
-                                                >
-                                                    <span className="material-icons">radio_button_unchecked</span>
-                                                </button>
-                                            )}
-                                        </td>
-                                        <td>
-                                            <button className="icon-button delete-user">
-                                                <span className="material-icons">delete</span>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <ReportRow report={report} key={report._id} />
                                 ))}
                             </tbody>
                         </table>
