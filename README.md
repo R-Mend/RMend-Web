@@ -1,6 +1,6 @@
 # RMend-Web
 
-RMend-Backend is the frontend web console for the RMend SaaS. Its goal is to give authority (customers/counties) admins the ability to manage and view their reports and other data.
+RMend-Web is the frontend web console for the RMend SaaS. Its goal is to give authority (customers/counties) admins the ability to manage and view their reports and other data.
 
 
 ## Usage example
