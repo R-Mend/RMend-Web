@@ -7,7 +7,7 @@ import report, {
     updateReport,
     deleteReport,
     IReportState,
-} from "@/redux/reducers/report.slice";
+} from "@/redux/features/report.slice";
 import type { IReport } from "@/models/IReport";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;

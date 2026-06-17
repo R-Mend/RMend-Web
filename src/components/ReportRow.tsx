@@ -1,6 +1,6 @@
 "use client";
 
-import { reportActions } from "@/redux/reducers/report.slice";
+import { reportActions } from "@/redux/features/report.slice";
 import { useAppDispatch } from "@/redux/hooks";
 import type { IReport } from "@/models/IReport";
 

@@ -4,7 +4,7 @@ import { useState, type ChangeEvent } from "react";
 
 import { useAppDispatch } from "@/redux/hooks";
 import type { IUser } from "@/models/IUser";
-import { userActions } from "@/redux/reducers/user.slice";
+import { userActions } from "@/redux/features/user.slice";
 
 export function UserRow({ user }: { user: IUser }) {
     const dispatch = useAppDispatch();

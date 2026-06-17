@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { makeStore, type AppStore } from "@/redux/store";
 import { Navbar } from "@/components/Navbar";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { alertActions } from "@/redux/reducers/alert.slice";
+import { alertActions } from "@/redux/features/alert.slice";
 import { usePathname } from "next/navigation";
 
 export function Providers({ children }: { children: React.ReactNode }) {

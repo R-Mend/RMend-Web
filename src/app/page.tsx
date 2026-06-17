@@ -5,7 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { ReportRow } from "@/components/ReportRow";
-import { reportActions } from "@/redux/reducers/report.slice";
+import { reportActions } from "@/redux/features/report.slice";
 import { RequireAuth } from "@/components/RequireAuth";
 import { IReport } from "@/models/IReport";
 

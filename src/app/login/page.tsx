@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import type { IAuthUser } from "@/models/IAuthUser";
-import { authActions } from "@/redux/reducers/auth.slice";
+import { authActions } from "@/redux/features/auth.slice";
 import { RequireAuth } from "@/components/RequireAuth";
 
 export default function Login() {

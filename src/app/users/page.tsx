@@ -5,7 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { UserRow } from "@/components/UserRow";
-import { userActions } from "@/redux/reducers/user.slice";
+import { userActions } from "@/redux/features/user.slice";
 import { RequireAuth } from "@/components/RequireAuth";
 import { IUser } from "@/models/IUser";
 
