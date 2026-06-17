@@ -11,11 +11,27 @@ A typical example of how the RMend web works are...
 3. Displaying the found information
 4. Allowing admin to update and delete reports and other similar data
 
+Built with [Next.js](https://nextjs.org/) (App Router) and TypeScript, with Redux + redux-thunk for
+state management.
+
 ## Development setup
 
+Create a `.env` file (see `.env.example`) pointing at the backend API:
+
 ```sh
-npm start
-npm run test
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+Then install dependencies and run the available scripts:
+
+```sh
+npm install
+npm run dev      # start the dev server at http://localhost:3000
+npm run build    # production build
+npm start        # serve the production build
+npm test         # run the Jest test suite
+npm run lint     # run eslint
+npm run typecheck # run the TypeScript compiler
 ```
 
 ## Meta
