@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { AuthUser } from "../types";
+import type { IAuthUser } from "@/models/IAuthUser";
 
 /**
  * Client-side route guard replacing the old <PrivateRoute>. Redirects to
@@ -15,7 +15,7 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         const stored = localStorage.getItem("user");
-        const user: AuthUser | null = stored ? JSON.parse(stored) : null;
+        const user: IAuthUser | null = stored ? JSON.parse(stored) : null;
 
         if (!user || !user.token) {
             // not logged in so redirect to login page

@@ -1,18 +1,18 @@
-import configureMockStore from "redux-mock-store";
-import thunk from "redux-thunk";
-import type { AnyAction } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 import fetchMock from "fetch-mock";
 
-import { reportConstants } from "../constants";
-import { reportActions } from "../actions";
-import { report } from "../reducers/report.reducer";
-import type { AppDispatch, RootState } from "../helpers/store";
-import type { Report } from "../types";
+import report, {
+    getAdminReports,
+    createReport,
+    updateReport,
+    deleteReport,
+    IReportState,
+} from "@/redux/reducers/report.slice";
+import type { IReport } from "@/models/IReport";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-const mockStore = configureMockStore<RootState, AppDispatch>([thunk]);
 
-const sampleReport = (overrides: Partial<Report> = {}): Report => ({
+const sampleReport = (overrides: Partial<IReport> = {}): IReport => ({
     _id: "1",
     title: "Pothole",
     details: "Big pothole on Main St",
@@ -22,80 +22,80 @@ const sampleReport = (overrides: Partial<Report> = {}): Report => ({
     ...overrides,
 });
 
-// Action creator tests ------------------------------------------------------
+const makeTestStore = (preloaded?: IReportState) =>
+    configureStore({
+        reducer: { report },
+        preloadedState: preloaded ? { report: preloaded } : undefined,
+    });
 
-describe("reportActions", () => {
+// Thunk integration tests (real store + mocked fetch) -----------------------
+
+describe("report slice thunks", () => {
     afterEach(() => fetchMock.restore());
 
-    it("dispatches GET_ADMIN_REPORTS_SUCCESS when getAdminReports resolves", async () => {
+    it("getAdminReports stores the returned reports", async () => {
         const reports = [sampleReport()];
         fetchMock.get(`${apiUrl}/authority/reports/`, {
             body: { reports },
             headers: { "content-type": "application/json" },
         });
 
-        const store = mockStore({} as RootState);
-        await store.dispatch(reportActions.getAdminReports());
+        const store = makeTestStore();
+        await store.dispatch(getAdminReports());
 
-        expect(store.getActions()).toEqual([
-            { type: reportConstants.GET_ADMIN_REPORTS_REQUEST },
-            { type: reportConstants.GET_ADMIN_REPORTS_SUCCESS, reports },
-        ]);
+        expect(store.getState().report.reports).toEqual(reports);
     });
 
-    it("dispatches DELETE_REPORT_SUCCESS when deleteReport resolves", async () => {
+    it("deleteReport removes the matching report", async () => {
         fetchMock.delete(`${apiUrl}/authority/reports/1`, {
             body: { reportId: "1" },
             headers: { "content-type": "application/json" },
         });
 
-        const store = mockStore({} as RootState);
-        await store.dispatch(reportActions.deleteReport("1"));
+        const store = makeTestStore({ reports: [sampleReport({ _id: "1" }), sampleReport({ _id: "2" })] });
+        await store.dispatch(deleteReport("1"));
 
-        expect(store.getActions()).toEqual([
-            { type: reportConstants.DELETE_REPORT_REQUEST },
-            { type: reportConstants.DELETE_REPORT_SUCCESS, reportId: "1" },
-        ]);
+        expect(store.getState().report.reports).toEqual([sampleReport({ _id: "2" })]);
     });
 });
 
-// Reducer tests -------------------------------------------------------------
+// Reducer tests (drive the slice with generated fulfilled actions) ----------
 
 describe("report reducer", () => {
     it("returns the initial state by default", () => {
-        expect(report(undefined, {} as AnyAction)).toEqual({ reports: null });
+        expect(report(undefined, { type: "@@INIT" })).toEqual({ reports: null });
     });
 
-    it("stores reports on GET_ADMIN_REPORTS_SUCCESS", () => {
+    it("stores reports on getAdminReports.fulfilled", () => {
         const reports = [sampleReport()];
-        expect(
-            report({ reports: null }, { type: reportConstants.GET_ADMIN_REPORTS_SUCCESS, reports })
-        ).toEqual({ reports });
+        expect(report({ reports: null }, getAdminReports.fulfilled(reports, "requestId", undefined))).toEqual({
+            reports,
+        });
     });
 
-    it("adds a report on CREATE_REPORT_SUCCESS", () => {
+    it("adds a report on createReport.fulfilled", () => {
         const existing = sampleReport({ _id: "1" });
         const created = sampleReport({ _id: "2" });
         expect(
-            report({ reports: [existing] }, { type: reportConstants.CREATE_REPORT_SUCCESS, report: created })
+            report({ reports: [existing] }, createReport.fulfilled(created, "requestId", {}))
         ).toEqual({ reports: [existing, created] });
     });
 
-    it("updates a report on UPDATE_REPORT_SUCCESS", () => {
+    it("updates a report on updateReport.fulfilled", () => {
         const original = sampleReport({ _id: "1", priority: false });
         const updated = sampleReport({ _id: "1", priority: true });
         expect(
-            report({ reports: [original] }, { type: reportConstants.UPDATE_REPORT_SUCCESS, report: updated })
+            report(
+                { reports: [original] },
+                updateReport.fulfilled(updated, "requestId", { reportId: "1", report: {} })
+            )
         ).toEqual({ reports: [updated] });
     });
 
-    it("removes a report on DELETE_REPORT_SUCCESS", () => {
+    it("removes a report on deleteReport.fulfilled", () => {
         const remaining = sampleReport({ _id: "2" });
         expect(
-            report(
-                { reports: [sampleReport({ _id: "1" }), remaining] },
-                { type: reportConstants.DELETE_REPORT_SUCCESS, reportId: "1" }
-            )
+            report({ reports: [sampleReport({ _id: "1" }), remaining] }, deleteReport.fulfilled("1", "requestId", "1"))
         ).toEqual({ reports: [remaining] });
     });
 });

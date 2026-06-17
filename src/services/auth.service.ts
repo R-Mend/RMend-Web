@@ -1,9 +1,9 @@
-import { authHeader } from "../helpers";
-import type { AuthUser } from "../types";
+import { authHeader } from "../helpers/auth-header";
+import type { IAuthUser } from "@/models/IAuthUser";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
 
-function login(email: string, password: string): Promise<AuthUser> {
+function login(email: string, password: string): Promise<IAuthUser> {
     const requestOptions: RequestInit = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -20,7 +20,7 @@ function login(email: string, password: string): Promise<AuthUser> {
             delete response.user["token"];
 
             // Return users info
-            return response.user as AuthUser;
+            return response.user as IAuthUser;
         });
 }
 
@@ -40,7 +40,7 @@ function getById(id: string): Promise<unknown> {
     return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
-function update(user: AuthUser): Promise<unknown> {
+function update(user: IAuthUser): Promise<unknown> {
     const requestOptions: RequestInit = {
         method: "PUT",
         headers: { ...authHeader(), "Content-Type": "application/json" },

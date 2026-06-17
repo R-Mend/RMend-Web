@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { authActions } from "../actions";
-import { useAppDispatch, useAppSelector } from "../helpers";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { authActions } from "@/redux/reducers/auth.slice";
 
 export function Navbar() {
     const pathname = usePathname();
@@ -13,6 +13,15 @@ export function Navbar() {
     const dispatch = useAppDispatch();
 
     const loggedIn = useAppSelector((state) => state.auth.loggedIn);
+
+    // `loggedIn` is derived from localStorage, which is unavailable during SSR.
+    // Wait until after mount before rendering auth-dependent UI so the first
+    // client render matches the server HTML and hydration succeeds.
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+    const showAuthNav = mounted && loggedIn;
 
     useEffect(() => {
         if (!loggedIn && pathname !== "/login") {
@@ -30,7 +39,7 @@ export function Navbar() {
                 RMend
             </Link>
 
-            {loggedIn && (
+            {showAuthNav && (
                 <ul className="navbar-nav mr-auto mt-2">
                     <li className="nav-item active">
                         <Link href="/" className="nav-link">
@@ -44,7 +53,7 @@ export function Navbar() {
                     </li>
                 </ul>
             )}
-            {loggedIn && (
+            {showAuthNav && (
                 <button className="btn btn-sm btn-light" onClick={logout}>
                     Logout
                 </button>

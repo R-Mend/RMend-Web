@@ -1,5 +1,5 @@
-import { authHeader } from "../helpers";
-import type { Report } from "../types";
+import { authHeader } from "../helpers/auth-header";
+import type { IReport } from "@/models/IReport";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
 
@@ -27,7 +27,7 @@ function getAdminReports(): Promise<any> {
     return fetch(`${config.apiUrl}/authority/reports/`, requestOptions).then(handleResponse);
 }
 
-function createReport(report: Partial<Report>): Promise<any> {
+function createReport(report: Partial<IReport>): Promise<any> {
     const requestOptions: RequestInit = {
         method: "POST",
         body: JSON.stringify(report),
@@ -37,7 +37,7 @@ function createReport(report: Partial<Report>): Promise<any> {
     return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
 }
 
-function updateReport(reportId: string, report: Partial<Report>): Promise<any> {
+function updateReport(reportId: string, report: Partial<IReport>): Promise<any> {
     const requestOptions: RequestInit = {
         method: "PUT",
         body: JSON.stringify(report),

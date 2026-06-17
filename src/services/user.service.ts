@@ -1,4 +1,4 @@
-import { authHeader } from "../helpers";
+import { authHeader } from "@/helpers/auth-header";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
 
