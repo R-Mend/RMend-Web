@@ -1,4 +1,4 @@
-import type { AuthUser } from "../types";
+import type { IAuthUser } from "@/models/IAuthUser";
 
 export function authHeader(): Record<string, string> {
     // return authorization header with jwt token
@@ -7,7 +7,7 @@ export function authHeader(): Record<string, string> {
     }
 
     const stored = localStorage.getItem("user");
-    const user: AuthUser | null = stored ? JSON.parse(stored) : null;
+    const user: IAuthUser | null = stored ? JSON.parse(stored) : null;
 
     if (user && user.token) {
         return { Authorization: "Bearer " + user.token };

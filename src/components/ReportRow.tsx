@@ -1,18 +1,18 @@
 "use client";
 
-import { reportActions } from "../actions";
-import { useAppDispatch } from "../helpers";
-import type { Report } from "../types";
+import { reportActions } from "@/redux/reducers/report.slice";
+import { useAppDispatch } from "@/redux/hooks";
+import type { IReport } from "@/models/IReport";
 
-export function ReportRow({ report }: { report: Report }) {
+export function ReportRow({ report }: { report: IReport }) {
     const dispatch = useAppDispatch();
 
     const handlePriorityClick = () => {
-        dispatch(reportActions.updateReport(report._id, { priority: !report.priority }));
+        dispatch(reportActions.updateReport({ reportId: report._id, report: { priority: !report.priority } }));
     };
 
     const handleInReviewClick = () => {
-        dispatch(reportActions.updateReport(report._id, { in_review: !report.in_review }));
+        dispatch(reportActions.updateReport({ reportId: report._id, report: { in_review: !report.in_review } }));
     };
 
     const handleDeleteClick = () => {

@@ -2,11 +2,11 @@
 
 import { useState, type ChangeEvent } from "react";
 
-import { userActions } from "../actions";
-import { useAppDispatch } from "../helpers";
-import type { User } from "../types";
+import { useAppDispatch } from "@/redux/hooks";
+import type { IUser } from "@/models/IUser";
+import { userActions } from "@/redux/reducers/user.slice";
 
-export function UserRow({ user }: { user: User }) {
+export function UserRow({ user }: { user: IUser }) {
     const dispatch = useAppDispatch();
     const [accessLevel, setAccessLevel] = useState(user.access_level);
     const [disabled, setDisabled] = useState(true);
@@ -21,7 +21,7 @@ export function UserRow({ user }: { user: User }) {
     };
 
     const handleSubmit = () => {
-        dispatch(userActions.updateUsersAccessLevel(user._id, accessLevel));
+        dispatch(userActions.updateUsersAccessLevel({ userId: user._id, accessLevel }));
     };
 
     return (
