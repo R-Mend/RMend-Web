@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { authService } from "@/services/auth.service";
+import { loginUser, logoutUser } from "@/app/(admin)/_actions/auth.actions";
 import type { IAuthUser } from "@/models/IAuthUser";
 import { alertActions } from "./alert.slice";
 
@@ -19,11 +19,11 @@ function initialAuthState(): IAuthState {
     return user ? { loggedIn: true, user } : {};
 }
 
-export const login = createAsyncThunk<IAuthUser, { email: string; password: string }>(
+export const userLoggedIn = createAsyncThunk<IAuthUser, { email: string; password: string }>(
     "auth/login",
     async ({ email, password }, { dispatch, rejectWithValue }) => {
         try {
-            return await authService.login(email, password);
+            return await loginUser(email, password);
         } catch (error) {
             const message = String(error);
             dispatch(alertActions.error(message));
@@ -32,8 +32,8 @@ export const login = createAsyncThunk<IAuthUser, { email: string; password: stri
     }
 );
 
-export const logout = createAsyncThunk<void, void>("auth/logout", async () => {
-    await authService.logout();
+export const userLoggedOut = createAsyncThunk<void, void>("auth/logout", async () => {
+    await logoutUser();
 });
 
 const authSlice = createSlice({
@@ -42,17 +42,16 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(login.pending, (state) => {
+            .addCase(userLoggedIn.pending, (state) => {
                 state.loggingIn = true;
             })
-            .addCase(login.fulfilled, (_state, action): IAuthState => ({
+            .addCase(userLoggedIn.fulfilled, (_state, action): IAuthState => ({
                 loggedIn: true,
                 user: action.payload,
             }))
-            .addCase(login.rejected, (): IAuthState => ({ loggedIn: false }))
-            .addCase(logout.fulfilled, (): IAuthState => ({ loggedIn: false }));
+            .addCase(userLoggedIn.rejected, (): IAuthState => ({ loggedIn: false }))
+            .addCase(userLoggedOut.fulfilled, (): IAuthState => ({ loggedIn: false }));
     },
 });
 
-export const authActions = { login, logout };
 export default authSlice.reducer;

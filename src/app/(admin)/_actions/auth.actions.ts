@@ -1,9 +1,9 @@
-import { authHeader } from "../helpers/auth-header";
+import { authHeader } from "../../../helpers/auth-header";
 import type { IAuthUser } from "@/models/IAuthUser";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
 
-function login(email: string, password: string): Promise<IAuthUser> {
+export function loginUser(email: string, password: string): Promise<IAuthUser> {
     const requestOptions: RequestInit = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,14 +24,14 @@ function login(email: string, password: string): Promise<IAuthUser> {
         });
 }
 
-function logout(): void {
+export function logoutUser(): void {
     // remove user from local storage to log user out
     if (typeof window !== "undefined") {
         localStorage.removeItem("user");
     }
 }
 
-function getById(id: string): Promise<unknown> {
+export function getUserById(id: string): Promise<unknown> {
     const requestOptions: RequestInit = {
         method: "GET",
         headers: authHeader(),
@@ -40,7 +40,7 @@ function getById(id: string): Promise<unknown> {
     return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
-function update(user: IAuthUser): Promise<unknown> {
+export function updateUser(user: IAuthUser): Promise<unknown> {
     const requestOptions: RequestInit = {
         method: "PUT",
         headers: { ...authHeader(), "Content-Type": "application/json" },
@@ -56,7 +56,7 @@ function handleResponse(response: Response): Promise<any> {
         if (!response.ok) {
             if (response.status === 401 && typeof window !== "undefined" && localStorage.getItem("user") !== null) {
                 // auto logout if 401 response returned from api and user is logged in
-                logout();
+                logoutUser();
                 window.location.reload();
             }
 
@@ -67,10 +67,3 @@ function handleResponse(response: Response): Promise<any> {
         return data;
     });
 }
-
-export const authService = {
-    login,
-    logout,
-    getById,
-    update,
-};

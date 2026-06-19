@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { userService } from "@/services/user.service";
+import { userService } from "@/app/(admin)/_actions/user.actions";
 import type { IUser } from "@/models/IUser";
 import { alertActions } from "./alert.slice";
 

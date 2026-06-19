@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { Provider } from "react-redux";
-import { makeStore, type AppStore } from "@/redux/store";
-import { Navbar } from "@/components/Navbar";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import { alertActions } from "@/redux/features/alert.slice";
+import { makeStore, type AppStore } from "@/app/(admin)/_redux/store";
+import { Navbar } from "@/app/(admin)/_components/Navbar";
+import { useAppSelector, useAppDispatch } from "@/app/(admin)/_redux/hooks";
+import { alertActions } from "@/app/(admin)/_redux/features/alert.slice";
 import { usePathname } from "next/navigation";
 
 export function Providers({ children }: { children: React.ReactNode }) {

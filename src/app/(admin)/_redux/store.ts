@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "@/redux/features";
+import rootReducer from "@/app/(admin)/_redux/features";
 
 /**
  * Creates a fresh Redux Toolkit store. The store is instantiated on the client

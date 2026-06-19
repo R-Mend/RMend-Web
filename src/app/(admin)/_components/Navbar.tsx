@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { authActions } from "@/redux/features/auth.slice";
+import { useAppDispatch, useAppSelector } from "@/app/(admin)/_redux/hooks";
+import { userLoggedOut } from "@/app/(admin)/_redux/features/auth.slice";
 
 export function Navbar() {
     const pathname = usePathname();
@@ -30,7 +30,7 @@ export function Navbar() {
     }, [loggedIn, pathname, router]);
 
     const logout = () => {
-        dispatch(authActions.logout());
+        dispatch(userLoggedOut());
     };
 
     return (

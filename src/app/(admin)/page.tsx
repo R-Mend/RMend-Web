@@ -3,10 +3,10 @@
 import { useEffect } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { ReportRow } from "@/components/ReportRow";
-import { reportActions } from "@/redux/features/report.slice";
-import { RequireAuth } from "@/components/RequireAuth";
+import { useAppDispatch, useAppSelector } from "@/app/(admin)/_redux/hooks";
+import { ReportRow } from "@/app/(admin)/_components/ReportRow";
+import { adminReportsFetched } from "@/app/(admin)/_redux/features/report.slice";
+import { RequireAuth } from "@/app/(admin)/_components/RequireAuth";
 import { IReport } from "@/models/IReport";
 
 export default function ReportsPage() {
@@ -16,7 +16,7 @@ export default function ReportsPage() {
 
     useEffect(() => {
         if (!hasReports) {
-            dispatch(reportActions.getAdminReports());
+            dispatch(adminReportsFetched());
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

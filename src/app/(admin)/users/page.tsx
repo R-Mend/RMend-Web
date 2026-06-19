@@ -3,10 +3,10 @@
 import { useEffect } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { UserRow } from "@/components/UserRow";
-import { userActions } from "@/redux/features/user.slice";
-import { RequireAuth } from "@/components/RequireAuth";
+import { useAppDispatch, useAppSelector } from "@/app/(admin)/_redux/hooks";
+import { UserRow } from "@/app/(admin)/_components/UserRow";
+import { userActions } from "@/app/(admin)/_redux/features/user.slice";
+import { RequireAuth } from "@/app/(admin)/_components/RequireAuth";
 import { IUser } from "@/models/IUser";
 
 export default function UsersPage() {

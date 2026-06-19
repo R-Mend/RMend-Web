@@ -1,4 +1,4 @@
-import { authHeader } from "../helpers/auth-header";
+import { authHeader } from "../../../helpers/auth-header";
 import type { IReport } from "@/models/IReport";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
@@ -8,7 +8,7 @@ interface LatLng {
     latitude: number;
 }
 
-function getReports(location: LatLng): Promise<any> {
+export async function getReportsByLocation(location: LatLng): Promise<any> {
     const requestOptions: RequestInit = {
         method: "GET",
         body: JSON.stringify(location),
@@ -18,7 +18,7 @@ function getReports(location: LatLng): Promise<any> {
     return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
 }
 
-function getAdminReports(): Promise<any> {
+export async function getCurrentAdminsReports(): Promise<any> {
     const requestOptions: RequestInit = {
         method: "GET",
         headers: authHeader(),
@@ -27,7 +27,7 @@ function getAdminReports(): Promise<any> {
     return fetch(`${config.apiUrl}/authority/reports/`, requestOptions).then(handleResponse);
 }
 
-function createReport(report: Partial<IReport>): Promise<any> {
+export async function createReport(report: Partial<IReport>): Promise<any> {
     const requestOptions: RequestInit = {
         method: "POST",
         body: JSON.stringify(report),
@@ -37,7 +37,7 @@ function createReport(report: Partial<IReport>): Promise<any> {
     return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
 }
 
-function updateReport(reportId: string, report: Partial<IReport>): Promise<any> {
+export async function updateReport(reportId: string, report: Partial<IReport>): Promise<any> {
     const requestOptions: RequestInit = {
         method: "PUT",
         body: JSON.stringify(report),
@@ -47,7 +47,7 @@ function updateReport(reportId: string, report: Partial<IReport>): Promise<any> 
     return fetch(`${config.apiUrl}/authority/reports/${reportId}`, requestOptions).then(handleResponse);
 }
 
-function deleteReport(reportId: string): Promise<any> {
+export async function deleteReport(reportId: string): Promise<any> {
     const requestOptions: RequestInit = {
         method: "DELETE",
         headers: authHeader(),
@@ -70,11 +70,3 @@ function handleResponse(response: Response): Promise<any> {
         return data;
     });
 }
-
-export const reportService = {
-    getReports,
-    getAdminReports,
-    createReport,
-    updateReport,
-    deleteReport,
-};

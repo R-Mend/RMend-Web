@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { reportService } from "@/services/report.service";
+import { getCurrentAdminsReports, getReportsByLocation, createReport, updateReport, deleteReport } from "@/app/(admin)/_actions/report.actions";
 import type { IReport } from "@/models/IReport";
 import { alertActions } from "./alert.slice";
 
@@ -19,11 +19,11 @@ interface IUpdateReportArg {
 
 const initialState: IReportState = { reports: null };
 
-export const getReports = createAsyncThunk<IReport[], ILatLng>(
+export const reportsFetched = createAsyncThunk<IReport[], ILatLng>(
     "report/getReports",
     async (location, { dispatch, rejectWithValue }) => {
         try {
-            const response = await reportService.getReports(location);
+            const response = await getReportsByLocation(location);
             return response.reports;
         } catch (error) {
             dispatch(alertActions.error(String(error)));
@@ -32,11 +32,11 @@ export const getReports = createAsyncThunk<IReport[], ILatLng>(
     }
 );
 
-export const getAdminReports = createAsyncThunk<IReport[], void>(
+export const adminReportsFetched = createAsyncThunk<IReport[], void>(
     "report/getAdminReports",
     async (_arg, { dispatch, rejectWithValue }) => {
         try {
-            const response = await reportService.getAdminReports();
+            const response = await getCurrentAdminsReports();
             return response.reports;
         } catch (error) {
             dispatch(alertActions.error(String(error)));
@@ -45,11 +45,11 @@ export const getAdminReports = createAsyncThunk<IReport[], void>(
     }
 );
 
-export const createReport = createAsyncThunk<IReport, Partial<IReport>>(
+export const reportCreated = createAsyncThunk<IReport, Partial<IReport>>(
     "report/createReport",
     async (report, { dispatch, rejectWithValue }) => {
         try {
-            const response = await reportService.createReport(report);
+            const response = await createReport(report);
             return response.report;
         } catch (error) {
             dispatch(alertActions.error(String(error)));
@@ -58,11 +58,11 @@ export const createReport = createAsyncThunk<IReport, Partial<IReport>>(
     }
 );
 
-export const updateReport = createAsyncThunk<IReport, IUpdateReportArg>(
+export const reportUpdated = createAsyncThunk<IReport, IUpdateReportArg>(
     "report/updateReport",
     async ({ reportId, report }, { dispatch, rejectWithValue }) => {
         try {
-            const response = await reportService.updateReport(reportId, report);
+            const response = await updateReport(reportId, report);
             return response.report;
         } catch (error) {
             dispatch(alertActions.error(String(error)));
@@ -71,11 +71,11 @@ export const updateReport = createAsyncThunk<IReport, IUpdateReportArg>(
     }
 );
 
-export const deleteReport = createAsyncThunk<string, string>(
+export const reportDeleted = createAsyncThunk<string, string>(
     "report/deleteReport",
     async (reportId, { dispatch, rejectWithValue }) => {
         try {
-            const response = await reportService.deleteReport(reportId);
+            const response = await deleteReport(reportId);
             return response.reportId;
         } catch (error) {
             dispatch(alertActions.error(String(error)));
@@ -90,40 +90,33 @@ const reportSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getReports.fulfilled, (state, action) => {
+            .addCase(reportsFetched.fulfilled, (state, action) => {
                 state.reports = action.payload;
             })
-            .addCase(getReports.rejected, (state) => {
+            .addCase(reportsFetched.rejected, (state) => {
                 state.reports = [];
             })
-            .addCase(getAdminReports.pending, (state) => {
+            .addCase(adminReportsFetched.pending, (state) => {
                 state.reports = null;
             })
-            .addCase(getAdminReports.fulfilled, (state, action) => {
+            .addCase(adminReportsFetched.fulfilled, (state, action) => {
                 state.reports = action.payload;
             })
-            .addCase(getAdminReports.rejected, (state) => {
+            .addCase(adminReportsFetched.rejected, (state) => {
                 state.reports = [];
             })
-            .addCase(createReport.fulfilled, (state, action) => {
+            .addCase(reportCreated.fulfilled, (state, action) => {
                 state.reports = [...(state.reports ?? []), action.payload];
             })
-            .addCase(updateReport.fulfilled, (state, action) => {
+            .addCase(reportUpdated.fulfilled, (state, action) => {
                 state.reports = (state.reports ?? []).map((report) =>
                     report._id === action.payload._id ? action.payload : report
                 );
             })
-            .addCase(deleteReport.fulfilled, (state, action) => {
+            .addCase(reportDeleted.fulfilled, (state, action) => {
                 state.reports = (state.reports ?? []).filter((report) => report._id !== action.payload);
             });
     },
 });
 
-export const reportActions = {
-    getReports,
-    getAdminReports,
-    createReport,
-    updateReport,
-    deleteReport,
-};
 export default reportSlice.reducer;

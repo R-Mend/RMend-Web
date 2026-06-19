@@ -3,10 +3,10 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/(admin)/_redux/hooks";
 import type { IAuthUser } from "@/models/IAuthUser";
-import { authActions } from "@/redux/features/auth.slice";
-import { RequireAuth } from "@/components/RequireAuth";
+import { RequireAuth } from "@/app/(admin)/_components/RequireAuth";
+import { userLoggedIn } from "@/app/(admin)/_redux/features/auth.slice";
 
 export default function Login() {
     const [{ email, password }, setInputs] = useState({
@@ -37,7 +37,7 @@ export default function Login() {
 
         setSubmitted(true);
         if (email && password) {
-            dispatch(authActions.login({ email, password }));
+            dispatch(userLoggedIn({ email, password }));
         }
     }
 
