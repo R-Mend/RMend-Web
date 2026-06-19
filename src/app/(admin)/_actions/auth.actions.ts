@@ -1,4 +1,4 @@
-import { authHeader } from "../../../helpers/auth-header";
+import { authHeader } from "../_helpers/auth-header";
 import type { IAuthUser } from "@/models/IAuthUser";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
