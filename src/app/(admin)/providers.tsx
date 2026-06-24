@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
+import { NeonAuthUIProvider } from "@neondatabase/auth/react";
+import { authClient } from "@/lib/auth/client";
 import { makeStore } from "@/app/(admin)/_redux/store";
 import { Navbar } from "@/app/(admin)/_components/Navbar";
 import { useAppSelector, useAppDispatch } from "@/app/(admin)/_redux/hooks";
@@ -15,9 +17,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const [store] = useState(makeStore);
 
     return (
-        <Provider store={store}>
-            <AppShell>{children}</AppShell>
-        </Provider>
+        <NeonAuthUIProvider authClient={authClient}>
+            <Provider store={store}>
+                <AppShell>{children}</AppShell>
+            </Provider>
+        </NeonAuthUIProvider>
     );
 }
 
