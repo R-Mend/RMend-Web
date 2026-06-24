@@ -21,6 +21,10 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
             // not logged in so redirect to login page
             router.replace("/login");
         } else {
+            // localStorage is only available client-side, so this gate must run
+            // in an effect; deriving it during render would mismatch SSR. This
+            // whole guard is slated to be replaced by Neon Auth middleware.
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setAuthorized(true);
         }
     }, [router]);
