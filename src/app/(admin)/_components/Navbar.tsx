@@ -19,6 +19,7 @@ export function Navbar() {
     // client render matches the server HTML and hydration succeeds.
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
     const showAuthNav = mounted && loggedIn;
