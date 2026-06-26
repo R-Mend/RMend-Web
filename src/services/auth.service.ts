@@ -1,9 +1,9 @@
-import { authHeader } from "../_helpers/auth-header";
+import { authHeader } from "@/app/(admin)/_helpers/auth-header";
 import type { IAuthUser } from "@/models/IAuthUser";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
 
-export function loginUser(email: string, password: string): Promise<IAuthUser> {
+function login(email: string, password: string): Promise<IAuthUser> {
     const requestOptions: RequestInit = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,14 +24,14 @@ export function loginUser(email: string, password: string): Promise<IAuthUser> {
         });
 }
 
-export function logoutUser(): void {
+function logout(): void {
     // remove user from local storage to log user out
     if (typeof window !== "undefined") {
         localStorage.removeItem("user");
     }
 }
 
-export function getUserById(id: string): Promise<unknown> {
+function getById(id: string): Promise<unknown> {
     const requestOptions: RequestInit = {
         method: "GET",
         headers: authHeader(),
@@ -40,7 +40,7 @@ export function getUserById(id: string): Promise<unknown> {
     return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(handleResponse);
 }
 
-export function updateUser(user: IAuthUser): Promise<unknown> {
+function update(user: IAuthUser): Promise<unknown> {
     const requestOptions: RequestInit = {
         method: "PUT",
         headers: { ...authHeader(), "Content-Type": "application/json" },
@@ -56,7 +56,7 @@ function handleResponse(response: Response): Promise<any> {
         if (!response.ok) {
             if (response.status === 401 && typeof window !== "undefined" && localStorage.getItem("user") !== null) {
                 // auto logout if 401 response returned from api and user is logged in
-                logoutUser();
+                logout();
                 window.location.reload();
             }
 
@@ -67,3 +67,10 @@ function handleResponse(response: Response): Promise<any> {
         return data;
     });
 }
+
+export const authService = {
+    login,
+    logout,
+    getById,
+    update,
+};

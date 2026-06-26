@@ -2,9 +2,9 @@
 
 import { useState, type ChangeEvent } from "react";
 
-import { useAppDispatch } from "@/app/(admin)/_redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import type { IUser } from "@/models/IUser";
-import { userActions } from "@/app/(admin)/_redux/features/user.slice";
+import { userActions } from "@/redux/features/user.slice";
 
 export function UserRow({ user }: { user: IUser }) {
     const dispatch = useAppDispatch();

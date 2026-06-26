@@ -8,7 +8,7 @@ interface LatLng {
     latitude: number;
 }
 
-export async function getReportsByLocation(location: LatLng): Promise<any> {
+function getReports(location: LatLng): Promise<any> {
     const requestOptions: RequestInit = {
         method: "GET",
         body: JSON.stringify(location),
@@ -18,7 +18,7 @@ export async function getReportsByLocation(location: LatLng): Promise<any> {
     return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
 }
 
-export async function getCurrentAdminsReports(): Promise<any> {
+function getAdminReports(): Promise<any> {
     const requestOptions: RequestInit = {
         method: "GET",
         headers: authHeader(),
@@ -27,7 +27,7 @@ export async function getCurrentAdminsReports(): Promise<any> {
     return fetch(`${config.apiUrl}/authority/reports/`, requestOptions).then(handleResponse);
 }
 
-export async function createReport(report: Partial<IReport>): Promise<any> {
+function createReport(report: Partial<IReport>): Promise<any> {
     const requestOptions: RequestInit = {
         method: "POST",
         body: JSON.stringify(report),
@@ -37,7 +37,7 @@ export async function createReport(report: Partial<IReport>): Promise<any> {
     return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
 }
 
-export async function updateReport(reportId: string, report: Partial<IReport>): Promise<any> {
+function updateReport(reportId: string, report: Partial<IReport>): Promise<any> {
     const requestOptions: RequestInit = {
         method: "PUT",
         body: JSON.stringify(report),
@@ -47,7 +47,7 @@ export async function updateReport(reportId: string, report: Partial<IReport>): 
     return fetch(`${config.apiUrl}/authority/reports/${reportId}`, requestOptions).then(handleResponse);
 }
 
-export async function deleteReport(reportId: string): Promise<any> {
+function deleteReport(reportId: string): Promise<any> {
     const requestOptions: RequestInit = {
         method: "DELETE",
         headers: authHeader(),
@@ -70,3 +70,11 @@ function handleResponse(response: Response): Promise<any> {
         return data;
     });
 }
+
+export const reportService = {
+    getReports,
+    getAdminReports,
+    createReport,
+    updateReport,
+    deleteReport,
+};

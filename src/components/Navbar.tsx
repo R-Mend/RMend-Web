@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { useAppDispatch, useAppSelector } from "@/app/(admin)/_redux/hooks";
-import { userLoggedOut } from "@/app/(admin)/_redux/features/auth.slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { authActions } from "@/redux/features/auth.slice";
 
 export function Navbar() {
     const pathname = usePathname();
@@ -24,6 +24,7 @@ export function Navbar() {
     }, []);
     const showAuthNav = mounted && loggedIn;
 
+    // TODO: replace with the neon auth middleware
     useEffect(() => {
         if (!loggedIn && pathname !== "/login") {
             router.push("/login");
@@ -31,7 +32,7 @@ export function Navbar() {
     }, [loggedIn, pathname, router]);
 
     const logout = () => {
-        dispatch(userLoggedOut());
+        dispatch(authActions.logout());
     };
 
     return (
