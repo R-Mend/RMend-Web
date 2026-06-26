@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Provider } from "react-redux";
-import { makeStore, type AppStore } from "@/app/(admin)/_redux/store";
+import { NeonAuthUIProvider } from "@neondatabase/auth/react";
+import { authClient } from "@/lib/auth/client";
+import { makeStore } from "@/app/(admin)/_redux/store";
 import { Navbar } from "@/app/(admin)/_components/Navbar";
 import { useAppSelector, useAppDispatch } from "@/app/(admin)/_redux/hooks";
 import { alertActions } from "@/app/(admin)/_redux/features/alert.slice";
@@ -10,16 +12,16 @@ import { usePathname } from "next/navigation";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     // Create the store once, on the client, so reducers that read from
-    // localStorage during initialization run in the browser.
-    const storeRef = useRef<AppStore>();
-    if (!storeRef.current) {
-        storeRef.current = makeStore();
-    }
+    // localStorage during initialization run in the browser. The lazy
+    // useState initializer runs exactly once and is safe during render.
+    const [store] = useState(makeStore);
 
     return (
-        <Provider store={storeRef.current}>
-            <AppShell>{children}</AppShell>
-        </Provider>
+        <NeonAuthUIProvider authClient={authClient}>
+            <Provider store={store}>
+                <AppShell>{children}</AppShell>
+            </Provider>
+        </NeonAuthUIProvider>
     );
 }
 
