@@ -1,6 +1,8 @@
+"use server";
+
 import { AuthView } from "@neondatabase/auth/react";
 
-export const dynamicParams = false;
+const dynamicParams = false;
 
 // Auth paths: sign-in, sign-up, forgot-password, reset-password,
 // magic-link, two-factor, callback, sign-out
