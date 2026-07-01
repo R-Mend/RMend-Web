@@ -2,9 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "@/redux/features";
 
 /**
- * Creates a fresh Redux Toolkit store. The store is instantiated on the client
- * (see `app/providers.tsx`) so that reducers reading from `localStorage` during
- * initialization run in the browser rather than during server rendering.
+ * Creates a fresh Redux Toolkit store. Using a factory (rather than a shared
+ * module-level store) gives each client its own isolated instance, which is the
+ * recommended App Router pattern since client components are pre-rendered on the
+ * server and a shared store would leak state across requests.
  *
  * `configureStore` wires up redux-thunk and the Redux DevTools automatically.
  */

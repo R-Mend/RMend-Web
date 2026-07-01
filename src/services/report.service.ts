@@ -1,4 +1,3 @@
-import { authHeader } from "@/utils/auth-header";
 import type { IReport } from "@/models/IReport";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
@@ -9,54 +8,26 @@ interface LatLng {
 }
 
 function getReports(location: LatLng): Promise<any> {
-    const requestOptions: RequestInit = {
-        method: "GET",
-        body: JSON.stringify(location),
-        headers: authHeader(),
-    };
-
-    return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
+    return Promise.resolve([]);
 }
 
 function getAdminReports(): Promise<any> {
-    const requestOptions: RequestInit = {
-        method: "GET",
-        headers: authHeader(),
-    };
-
-    return fetch(`${config.apiUrl}/authority/reports/`, requestOptions).then(handleResponse);
+    return Promise.resolve([]);
 }
 
 function createReport(report: Partial<IReport>): Promise<any> {
-    const requestOptions: RequestInit = {
-        method: "POST",
-        body: JSON.stringify(report),
-        headers: { ...authHeader(), "Content-Type": "application/json" },
-    };
-
-    return fetch(`${config.apiUrl}/reports`, requestOptions).then(handleResponse);
+    return Promise.resolve();
 }
 
 function updateReport(reportId: string, report: Partial<IReport>): Promise<any> {
-    const requestOptions: RequestInit = {
-        method: "PUT",
-        body: JSON.stringify(report),
-        headers: { ...authHeader(), "Content-Type": "application/json" },
-    };
-
-    return fetch(`${config.apiUrl}/authority/reports/${reportId}`, requestOptions).then(handleResponse);
+    return Promise.resolve();
 }
 
 function deleteReport(reportId: string): Promise<any> {
-    const requestOptions: RequestInit = {
-        method: "DELETE",
-        headers: authHeader(),
-    };
-
-    return fetch(`${config.apiUrl}/authority/reports/${reportId}`, requestOptions).then(handleResponse);
+    return Promise.resolve();
 }
 
-function handleResponse(response: Response): Promise<any> {
+async function handleResponse(response: Response): Promise<any> {
     return response.text().then((text) => {
         const data = text && JSON.parse(text);
         if (!response.ok) {

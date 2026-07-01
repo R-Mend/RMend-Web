@@ -11,9 +11,9 @@ import { alertActions } from "@/redux/features/alert.slice";
 import { usePathname } from "next/navigation";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    // Create the store once, on the client, so reducers that read from
-    // localStorage during initialization run in the browser. The lazy
-    // useState initializer runs exactly once and is safe during render.
+    // Create one store per client via a lazy useState initializer, so each
+    // browser session gets its own isolated instance. The initializer runs
+    // exactly once and is safe during render.
     const [store] = useState(makeStore);
 
     return (
