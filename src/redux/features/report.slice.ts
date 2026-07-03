@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { reportService } from "@/services/report.service";
-import type { IReport } from "@/models/IReport";
+import type { Report } from "@/models/Report";
 import { alertActions } from "./alert.slice";
 
-export interface IReportState {
-    reports: IReport[] | null;
+export interface ReportState {
+    reports: Report[] | null;
 }
 
 interface ILatLng {
@@ -13,13 +13,13 @@ interface ILatLng {
 }
 
 interface IUpdateReportArg {
-    reportId: string;
-    report: Partial<IReport>;
+    reportId: number;
+    report: Partial<Report>;
 }
 
-const initialState: IReportState = { reports: null };
+const initialState: ReportState = { reports: null };
 
-export const getReports = createAsyncThunk<IReport[], ILatLng>(
+export const getReports = createAsyncThunk<Report[], ILatLng>(
     "report/getReports",
     async (location, { dispatch, rejectWithValue }) => {
         try {
@@ -32,7 +32,7 @@ export const getReports = createAsyncThunk<IReport[], ILatLng>(
     }
 );
 
-export const getAdminReports = createAsyncThunk<IReport[], void>(
+export const getAdminReports = createAsyncThunk<Report[], void>(
     "report/getAdminReports",
     async (_arg, { dispatch, rejectWithValue }) => {
         try {
@@ -45,7 +45,7 @@ export const getAdminReports = createAsyncThunk<IReport[], void>(
     }
 );
 
-export const createReport = createAsyncThunk<IReport, Partial<IReport>>(
+export const createReport = createAsyncThunk<Report, Partial<Report>>(
     "report/createReport",
     async (report, { dispatch, rejectWithValue }) => {
         try {
@@ -58,7 +58,7 @@ export const createReport = createAsyncThunk<IReport, Partial<IReport>>(
     }
 );
 
-export const updateReport = createAsyncThunk<IReport, IUpdateReportArg>(
+export const updateReport = createAsyncThunk<Report, IUpdateReportArg>(
     "report/updateReport",
     async ({ reportId, report }, { dispatch, rejectWithValue }) => {
         try {
@@ -71,7 +71,7 @@ export const updateReport = createAsyncThunk<IReport, IUpdateReportArg>(
     }
 );
 
-export const deleteReport = createAsyncThunk<string, string>(
+export const deleteReport = createAsyncThunk<string, number>(
     "report/deleteReport",
     async (reportId, { dispatch, rejectWithValue }) => {
         try {
@@ -110,11 +110,11 @@ const reportSlice = createSlice({
             })
             .addCase(updateReport.fulfilled, (state, action) => {
                 state.reports = (state.reports ?? []).map((report) =>
-                    report._id === action.payload._id ? action.payload : report
+                    report.id === action.payload.id ? action.payload : report
                 );
             })
             .addCase(deleteReport.fulfilled, (state, action) => {
-                state.reports = (state.reports ?? []).filter((report) => report._id !== action.payload);
+                state.reports = (state.reports ?? []).filter((report) => String(report.id) !== action.payload);
             });
     },
 });

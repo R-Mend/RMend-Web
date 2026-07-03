@@ -6,7 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { ReportRow } from "@/components/ReportRow";
 import { reportActions } from "@/redux/features/report.slice";
-import { IReport } from "@/models/IReport";
+import { Report } from "@/models/Report";
 
 export default function ReportsPage() {
     // const dispatch = useAppDispatch();
@@ -32,17 +32,14 @@ export default function ReportsPage() {
                         <table id="data" className="table table-borderless">
                             <thead className="bg-primary border-bottom">
                                 <tr>
-                                    <th>Priority</th>
-                                    <th>Title</th>
-                                    <th>Details</th>
-                                    <th>Author</th>
-                                    <th className="text-nowrap">In Review</th>
+                                    <th>Description</th>
+                                    <th>Reporter Contact</th>
                                     <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {[].map((report: IReport) => (
-                                    <ReportRow report={report} key={report._id} />
+                                {[].map((report: Report) => (
+                                    <ReportRow report={report} key={report.id} />
                                 ))}
                             </tbody>
                         </table>

@@ -1,4 +1,4 @@
-import type { IReport } from "@/models/IReport";
+import type { Report } from "@/models/Report";
 
 const config = { apiUrl: process.env.NEXT_PUBLIC_API_URL };
 
@@ -15,15 +15,15 @@ function getAdminReports(): Promise<any> {
     return Promise.resolve([]);
 }
 
-function createReport(report: Partial<IReport>): Promise<any> {
+function createReport(report: Partial<Report>): Promise<any> {
     return Promise.resolve();
 }
 
-function updateReport(reportId: string, report: Partial<IReport>): Promise<any> {
+function updateReport(reportId: number, report: Partial<Report>): Promise<any> {
     return Promise.resolve();
 }
 
-function deleteReport(reportId: string): Promise<any> {
+function deleteReport(reportId: number): Promise<any> {
     return Promise.resolve();
 }
 

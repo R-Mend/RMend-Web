@@ -6,23 +6,26 @@ import report, {
     createReport,
     updateReport,
     deleteReport,
-    IReportState,
+    ReportState,
 } from "@/redux/features/report.slice";
-import type { IReport } from "@/models/IReport";
+import type { Report } from "@/models/Report";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const sampleReport = (overrides: Partial<IReport> = {}): IReport => ({
-    _id: "1",
-    title: "Pothole",
-    details: "Big pothole on Main St",
-    author: "Jane",
-    priority: false,
-    in_review: false,
+const sampleReport = (overrides: Partial<Report> = {}): Report => ({
+    id: 1,
+    geom: { type: "Point", coordinates: [0, 0] } as any,
+    issueCategory: 1,
+    authorityID: 1,
+    status: "assigned",
+    description: "Big pothole on Main St",
+    reporterContact: "example@email.com",
+    createdAt: new Date(),
+    updatedAt: new Date(),
     ...overrides,
 });
 
-const makeTestStore = (preloaded?: IReportState) =>
+const makeTestStore = (preloaded?: ReportState) =>
     configureStore({
         reducer: { report },
         preloadedState: preloaded ? { report: preloaded } : undefined,
@@ -52,10 +55,10 @@ describe("report slice thunks", () => {
             headers: { "content-type": "application/json" },
         });
 
-        const store = makeTestStore({ reports: [sampleReport({ _id: "1" }), sampleReport({ _id: "2" })] });
-        await store.dispatch(deleteReport("1"));
+        const store = makeTestStore({ reports: [sampleReport({ id: 1 }), sampleReport({ id: 2 })] });
+        await store.dispatch(deleteReport(1));
 
-        expect(store.getState().report.reports).toEqual([sampleReport({ _id: "2" })]);
+        expect(store.getState().report.reports).toEqual([sampleReport({ id: 2 })]);
     });
 });
 
@@ -74,28 +77,28 @@ describe("report reducer", () => {
     });
 
     it("adds a report on createReport.fulfilled", () => {
-        const existing = sampleReport({ _id: "1" });
-        const created = sampleReport({ _id: "2" });
+        const existing = sampleReport({ id: 1 });
+        const created = sampleReport({ id: 2 });
         expect(
             report({ reports: [existing] }, createReport.fulfilled(created, "requestId", {}))
         ).toEqual({ reports: [existing, created] });
     });
 
     it("updates a report on updateReport.fulfilled", () => {
-        const original = sampleReport({ _id: "1", priority: false });
-        const updated = sampleReport({ _id: "1", priority: true });
+        const original = sampleReport({ id: 1, description: "hello" });
+        const updated = sampleReport({ id: 1, description: "goodbye" });
         expect(
             report(
                 { reports: [original] },
-                updateReport.fulfilled(updated, "requestId", { reportId: "1", report: {} })
+                updateReport.fulfilled(updated, "requestId", { reportId: 1, report: {} })
             )
         ).toEqual({ reports: [updated] });
     });
 
     it("removes a report on deleteReport.fulfilled", () => {
-        const remaining = sampleReport({ _id: "2" });
+        const remaining = sampleReport({ id: 2 });
         expect(
-            report({ reports: [sampleReport({ _id: "1" }), remaining] }, deleteReport.fulfilled("1", "requestId", "1"))
+            report({ reports: [sampleReport({ id: 1 }), remaining] }, deleteReport.fulfilled("1", "requestId", 1))
         ).toEqual({ reports: [remaining] });
     });
 });
