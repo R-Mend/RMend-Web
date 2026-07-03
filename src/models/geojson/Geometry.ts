@@ -11,6 +11,15 @@ export type Position = [number, number] | [number, number, number];
 export type LinearRing = Position[];
 
 /**
+ * A Point is a single position.
+ * See RFC 7946 §3.1.2.
+ */
+export interface Point {
+    type: "Point";
+    coordinates: Position;
+}
+
+/**
  * A Polygon is an array of linear rings. The first ring is the exterior ring;
  * any subsequent rings are interior rings (holes).
  * See RFC 7946 §3.1.6.
@@ -33,4 +42,4 @@ export interface MultiPolygon {
  * The subset of GeoJSON geometry objects used across the app.
  * Extend this union as additional geometry types are needed.
  */
-export type Geometry = Polygon | MultiPolygon;
+export type Geometry = Point | Polygon | MultiPolygon;
