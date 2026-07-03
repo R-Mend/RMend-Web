@@ -1,11 +1,6 @@
-"use client";
-
-import { authClient } from "@/lib/auth/client"
 import Link from "next/link";
 
-export async function Navbar() {
-    const { data: session } = await authClient.getSession();
-
+export function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-secondary">
             <Link href="/" className="navbar-brand">
@@ -13,7 +8,7 @@ export async function Navbar() {
             </Link>
 
             {/* Replace with Neon Auth State Handling (updated redux state) */}
-            {session?.user && (
+            {true && (
                 <ul className="navbar-nav mr-auto mt-2">
                     <li className="nav-item active">
                         <Link href="/" className="nav-link">
