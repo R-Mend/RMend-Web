@@ -6,7 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { UserRow } from "@/components/UserRow";
 import { userActions } from "@/redux/features/user.slice";
-import { IUser } from "@/models/IUser";
+import { User } from "@/models/User";
 
 export default function UsersPage() {
     // const dispatch = useAppDispatch();
@@ -47,8 +47,8 @@ export default function UsersPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {[].map((user: IUser) => (
-                                    <UserRow user={user} key={user._id} />
+                                {[].map((user: User) => (
+                                    <UserRow user={user} key={user.id} />
                                 ))}
                             </tbody>
                         </table>
@@ -66,10 +66,10 @@ export default function UsersPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {[].map((user: IUser) => (
-                                    <tr className="table-row rounded-pill" key={user._id}>
-                                        <td className="text-nowrap">{user._id}</td>
-                                        <td className="text-nowrap">{user.username}</td>
+                                {[].map((user: User) => (
+                                    <tr className="table-row rounded-pill" key={user.id}>
+                                        <td className="text-nowrap">{user.id}</td>
+                                        <td className="text-nowrap">{user.firstName}</td>
                                         <td className="text-nowrap">{user.email}</td>
                                         <td>
                                             <button className="btn btn-sm btn-light">Accept</button>

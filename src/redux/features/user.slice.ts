@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { userService } from "@/services/user.service";
-import type { IUser } from "@/models/IUser";
+import type { User } from "@/models/User";
 import { alertActions } from "./alert.slice";
 
-export interface IUserState {
-    users: IUser[] | null;
-    requests: IUser[] | null;
+export interface UserState {
+    users: User[] | null;
+    requests: User[] | null;
 }
 
 interface IUpdateAccessLevelArg {
@@ -13,7 +13,7 @@ interface IUpdateAccessLevelArg {
     accessLevel: string;
 }
 
-const initialState: IUserState = { users: null, requests: null };
+const initialState: UserState = { users: null, requests: null };
 
 export const acceptUserRequest = createAsyncThunk<string, string>(
     "user/acceptUserRequest",
@@ -28,7 +28,7 @@ export const acceptUserRequest = createAsyncThunk<string, string>(
     }
 );
 
-export const getAuthorityUsers = createAsyncThunk<IUser[], void>(
+export const getAuthorityUsers = createAsyncThunk<User[], void>(
     "user/getAuthorityUsers",
     async (_arg, { dispatch, rejectWithValue }) => {
         try {
@@ -41,7 +41,7 @@ export const getAuthorityUsers = createAsyncThunk<IUser[], void>(
     }
 );
 
-export const getAuthorityRequests = createAsyncThunk<IUser[], void>(
+export const getAuthorityRequests = createAsyncThunk<User[], void>(
     "user/getAuthorityRequests",
     async (_arg, { dispatch, rejectWithValue }) => {
         try {
@@ -54,7 +54,7 @@ export const getAuthorityRequests = createAsyncThunk<IUser[], void>(
     }
 );
 
-export const updateUsersAccessLevel = createAsyncThunk<IUser, IUpdateAccessLevelArg>(
+export const updateUsersAccessLevel = createAsyncThunk<User, IUpdateAccessLevelArg>(
     "user/updateUsersAccessLevel",
     async ({ userId, accessLevel }, { dispatch, rejectWithValue }) => {
         try {
@@ -100,11 +100,11 @@ const userSlice = createSlice({
             })
             .addCase(updateUsersAccessLevel.fulfilled, (state, action) => {
                 state.users = (state.users ?? []).map((user) =>
-                    user._id === action.payload._id ? action.payload : user
+                    user.id === action.payload.id ? action.payload : user
                 );
             })
             .addCase(removeUserFromAuthority.fulfilled, (state, action) => {
-                state.users = (state.users ?? []).filter((user) => user._id !== action.payload);
+                state.users = (state.users ?? []).filter((user) => user.id !== action.payload);
             });
     },
 });
