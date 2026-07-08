@@ -1,12 +1,16 @@
 import { MultiPolygon } from "./geojson/Geometry"
 
-export interface CoverageRule {
+export interface CoverageArea {
     id: number;
     authorityID: number;
-    issueCategoryID: number;
     geom: MultiPolygon;
     priority: number;
     active: boolean;
     createdAt: Date;
     updatedAt: Date;
+}
+
+export interface CoverageAreaCategories {
+    coverageAreaID: number;
+    issueCategoryID: number;
 }
