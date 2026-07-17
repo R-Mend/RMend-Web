@@ -3,7 +3,6 @@ export interface Authority {
     name: string;
     regionID: string;
     contactEmail: string;
-    joinCode: string;
     status: AuthorityStatus;
     createdAt: Date;
     updatedAt: Date;
