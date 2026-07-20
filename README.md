@@ -1,13 +1,13 @@
 # RMend-Web
 
-RMend-Web is the frontend web console for the RMend SaaS. Its goal is to give authority (customers/counties) admins the ability to manage and view their reports and other data.
+RMend-Web is the frontend web console for the RMend SaaS. Its goal is to give organization (customers/counties) admins the ability to manage and view their reports and other data.
 
 
 ## Usage example
 
 A typical example of how the RMend web works are...
-1. Logging an authority admin in
-2. Getting that users authority data like employees, reports, etc.
+1. Logging an org admin in
+2. Getting that users org data like employees, reports, etc.
 3. Displaying the found information
 4. Allowing admin to update and delete reports and other similar data
 

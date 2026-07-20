@@ -7,7 +7,7 @@ import { Providers } from "./providers";
 
 export const metadata: Metadata = {
     title: "RMend",
-    description: "RMend authority web console",
+    description: "RMend organization web console",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,6 +1,6 @@
 export interface MemberInvite {
     id: number;
-    authorityID: number;
+    organizationId: number;
     userID: number;
     status: InviteRequestStatus;
     createdAt: Date;

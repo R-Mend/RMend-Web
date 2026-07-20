@@ -4,7 +4,7 @@ export interface Report {
     id: number;
     geom: Point;
     issueCategory: number;
-    authorityID: number;
+    organizationId: number;
     status: ReportStatus;
     reporterContact: string; // TODO: consider updating to userID
     description: string;

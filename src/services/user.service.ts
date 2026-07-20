@@ -4,19 +4,7 @@ function acceptUserRequest(userId: string): Promise<any> {
     return Promise.resolve();
 }
 
-function getAuthorityUsers(): Promise<any> {
-    return Promise.resolve();
-}
-
-function getAuthorityRequests(): Promise<any> {
-    return Promise.resolve();
-}
-
 function updateUsersAccessLevel(userId: string, accessLevel: string): Promise<any> {
-    return Promise.resolve();
-}
-
-function removeUserFromAuthority(userId: string): Promise<any> {
     return Promise.resolve();
 }
 
@@ -37,8 +25,5 @@ async function handleResponse(response: Response): Promise<any> {
 
 export const userService = {
     acceptUserRequest,
-    getAuthorityUsers,
-    getAuthorityRequests,
     updateUsersAccessLevel,
-    removeUserFromAuthority,
 };

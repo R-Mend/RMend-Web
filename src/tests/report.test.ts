@@ -16,7 +16,7 @@ const sampleReport = (overrides: Partial<Report> = {}): Report => ({
     id: 1,
     geom: { type: "Point", coordinates: [0, 0] } as any,
     issueCategory: 1,
-    authorityID: 1,
+    organizationId: 1,
     status: "assigned",
     description: "Big pothole on Main St",
     reporterContact: "example@email.com",
@@ -38,7 +38,7 @@ describe("report slice thunks", () => {
 
     it("getAdminReports stores the returned reports", async () => {
         const reports = [sampleReport()];
-        fetchMock.get(`${apiUrl}/authority/reports/`, {
+        fetchMock.get(`${apiUrl}/organization/reports/`, {
             body: { reports },
             headers: { "content-type": "application/json" },
         });
@@ -50,7 +50,7 @@ describe("report slice thunks", () => {
     });
 
     it("deleteReport removes the matching report", async () => {
-        fetchMock.delete(`${apiUrl}/authority/reports/1`, {
+        fetchMock.delete(`${apiUrl}/organization/reports/1`, {
             body: { reportId: "1" },
             headers: { "content-type": "application/json" },
         });
