@@ -17,7 +17,7 @@ export function UserRow({ user }: { user: User }) {
     };
 
     const handleDeleteClick = () => {
-        dispatch(userActions.removeUserFromAuthority(user.id));
+        console.log("Not Implemented");
     };
 
     const handleSubmit = () => {
