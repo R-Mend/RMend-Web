@@ -29,7 +29,7 @@ export const report = pgTable('report', {
 export const CoverageArea = pgTable('coverage_area', {
     id: uuid('id').defaultRandom().primaryKey(),
     organizationId: text('organization_id').notNull(),
-    geom: point().notNull(),
+    geom: multiPolygon("geom").notNull(),
     active: boolean().notNull(),
     priority: integer().default(0),
     ...timestamps
