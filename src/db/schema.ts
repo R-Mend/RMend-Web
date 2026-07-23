@@ -41,6 +41,15 @@ export const CoverageArea = pgTable('coverage_area', {
     ...timestamps
 });
 
+// TODO: should this be tied to organization in to make creation and editing easier?
+export const IssueCategory = pgTable('issue_category', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    parentId: text('parent_id'),
+    name: text().notNull(),
+    slug: text().notNull(),
+    ...timestamps
+});
+
 
 // ---------------------------------------------------------------------------
 // neon_auth schema — these tables are managed by Neon Auth, NOT by drizzle-kit push.
