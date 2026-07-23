@@ -1,4 +1,4 @@
-import { customType } from "drizzle-orm/pg-core";
+import { customType, timestamp } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import { MultiPolygon } from "@/models/geojson/Geometry";
 
@@ -13,3 +13,8 @@ export const multiPolygon = customType<{ data: MultiPolygon; driverData: string 
     return JSON.parse(value);
   },
 });
+
+export const timestamps = {
+  updatedAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+}

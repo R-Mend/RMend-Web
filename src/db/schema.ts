@@ -1,25 +1,17 @@
 import {
   pgTable,
-  pgSchema,
   text,
-  timestamp,
   uuid,
   pgEnum,
   point,
   boolean,
   integer,
-  geometry
 } from 'drizzle-orm/pg-core';
-import { multiPolygon } from './column.helpers';
+import { multiPolygon, timestamps } from './column.helpers';
 
 // ---------------------------------------------------------------------------
 // App tables (public schema) — managed by `drizzle-kit push`
 // ---------------------------------------------------------------------------
-
-export const timestamps = {
-  updatedAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  createdAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-}
 
 export const reportStatusEnum = pgEnum('report_status', ['new', 'triage', 'assigned', 'in_progress', 'resolved']);
 
