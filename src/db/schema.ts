@@ -7,8 +7,10 @@ import {
   pgEnum,
   point,
   boolean,
-  integer
+  integer,
+  geometry
 } from 'drizzle-orm/pg-core';
+import { multiPolygon } from './column.helpers';
 
 // ---------------------------------------------------------------------------
 // App tables (public schema) — managed by `drizzle-kit push`
@@ -48,6 +50,15 @@ export const IssueCategory = pgTable('issue_category', {
     name: text().notNull(),
     slug: text().notNull(),
     ...timestamps
+});
+
+export const regionTypeEnum = pgEnum('region_type', ['state', 'county', 'municipality']);
+
+export const Region = pgTable('region', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    type: regionTypeEnum().notNull(),
+    name: text().notNull(),
+    geom: multiPolygon("geom").notNull(),
 });
 
 // ---------------------------------------------------------------------------
