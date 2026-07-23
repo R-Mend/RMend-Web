@@ -50,7 +50,6 @@ export const IssueCategory = pgTable('issue_category', {
     ...timestamps
 });
 
-
 // ---------------------------------------------------------------------------
 // neon_auth schema — these tables are managed by Neon Auth, NOT by drizzle-kit push.
 //
@@ -79,3 +78,17 @@ export const IssueCategory = pgTable('issue_category', {
 // 	createdAt: timestamp({ withTimezone: true }).notNull(),
 // 	metadata: text(),
 // });
+
+// export const invitationInNeonAuth = neonAuth.table("invitation", {
+// 	id: uuid().defaultRandom().primaryKey(),
+// 	organizationId: uuid().notNull().references(() => organizationInNeonAuth.id, { onDelete: "cascade" } ),
+// 	email: text().notNull(),
+// 	role: text(),
+// 	status: text().notNull(),
+// 	expiresAt: timestamp({ withTimezone: true }).notNull(),
+// 	createdAt: timestamp({ withTimezone: true }).default(sql`CURRENT_TIMESTAMP`).notNull(),
+// 	inviterId: uuid().notNull().references(() => userInNeonAuth.id, { onDelete: "cascade" } ),
+// }, (table) => [
+// 	index("invitation_email_idx").using("btree", table.email.asc().nullsLast()),
+// 	index("invitation_organizationId_idx").using("btree", table.organizationId.asc().nullsLast()),
+// ]);
