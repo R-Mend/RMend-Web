@@ -2,7 +2,7 @@ import { MultiPolygon } from "./geojson/Geometry"
 
 export interface CoverageArea {
     id: number;
-    authorityID: number;
+    organizationId: number;
     geom: MultiPolygon;
     priority: number;
     active: boolean;
