@@ -6,11 +6,18 @@ import {
   uuid,
   pgEnum,
   point,
+  boolean,
+  integer
 } from 'drizzle-orm/pg-core';
 
 // ---------------------------------------------------------------------------
 // App tables (public schema) — managed by `drizzle-kit push`
 // ---------------------------------------------------------------------------
+
+export const timestamps = {
+  updatedAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+}
 
 export const reportStatusEnum = pgEnum('report_status', ['new', 'triage', 'assigned', 'in_progress', 'resolved']);
 
@@ -22,12 +29,16 @@ export const report = pgTable('report', {
     status: reportStatusEnum(),
     reporterContact: text(), // TODO: consider updating to userId
     description: text(),
-    createdAt: timestamp('created_at', { withTimezone: true })
-        .notNull()
-        .defaultNow(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
-        .notNull()
-        .defaultNow(),
+    ...timestamps
+});
+
+export const CoverageArea = pgTable('coverage_area', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    organizationId: text('organization_id').notNull(),
+    geom: point().notNull(),
+    active: boolean().notNull(),
+    priority: integer().default(0),
+    ...timestamps
 });
 
 
