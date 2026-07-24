@@ -1,51 +1,24 @@
-"use client";
+import { redirect } from 'next/navigation';
+import { auth } from '@/lib/auth/server';
 
-import { useEffect } from "react";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+// Server components using `auth` methods must be rendered dynamically
+export const dynamic = 'force-dynamic';
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { ReportRow } from "@/components/ReportRow";
-import { reportActions } from "@/redux/features/report.slice";
-import { Report } from "@/models/Report";
+export default async function HomePage() {
+    const { data: session } = await auth.getSession();
 
-export default function ReportsPage() {
-    // const dispatch = useAppDispatch();
-    // const reports = useAppSelector((state) => state.report.reports || []);
-    // const hasReports = useAppSelector((state) => state.report.reports !== null);
-
-    // useEffect(() => {
-    //     if (!hasReports) {
-    //         dispatch(reportActions.getAdminReports());
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
-    return (
-        <div className="col-8 d-flex flex-column">
-            <Tabs className="pt-5 d-flex flex-column flex-grow-1">
-                <TabList>
-                    <Tab>Reports</Tab>
-                </TabList>
-
-                <TabPanel className="d-flex flex-grow-1">
-                    <div className="table-responsive flex-grow-1" style={{ overflowY: "scroll" }}>
-                        <table id="data" className="table table-borderless">
-                            <thead className="bg-primary border-bottom">
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Reporter Contact</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {[].map((report: Report) => (
-                                    <ReportRow report={report} key={report.id} />
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </TabPanel>
-            </Tabs>
-        </div>
-    );
+    if (session?.user) {
+        // Check if user is admin
+        if (session.user.role === 'admin') {
+            // TODO: create and redirect to admin console for onboarding new organizations
+            redirect('/reports');
+        } else {
+            // Non-admin users should go to main app
+            // const mainAppUrl = process.env.MAIN_APP_URL || 'http://localhost:3000';
+            // redirect(mainAppUrl);
+            redirect('/reports')
+        }
+    } else {
+        redirect('/auth/sign-in');
+    }
 }
