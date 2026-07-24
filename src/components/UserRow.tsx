@@ -25,13 +25,13 @@ export function UserRow({ user }: { user: User }) {
     };
 
     return (
-        <tr className="table-row rounded-pill" key={user.id}>
-            <td className="text-nowrap">{user.id}</td>
-            <td className="text-nowrap">{user.firstName}</td>
-            <td className="text-nowrap">{user.email}</td>
-            {/* <td className="text-nowrap">
+        <tr className="border-b border-line/60 transition-colors hover:bg-elevated" key={user.id}>
+            <td className="px-4 py-3 whitespace-nowrap">{user.id}</td>
+            <td className="px-4 py-3 whitespace-nowrap">{user.firstName}</td>
+            <td className="px-4 py-3 whitespace-nowrap">{user.email}</td>
+            {/* <td className="px-4 py-3 whitespace-nowrap">
                 <select
-                    className="form-select"
+                    className="rounded-md border border-line bg-surface px-2 py-1 text-sm text-fg"
                     aria-label="select access level"
                     onChange={handleSelectChange}
                     value={accessLevel}
@@ -41,13 +41,20 @@ export function UserRow({ user }: { user: User }) {
                     <option value="admin">Admin</option>
                 </select>
             </td> */}
-            {/* <td>
-                <button className="icon-button delete-user" disabled={disabled} onClick={handleSubmit}>
+            {/* <td className="px-4 py-3">
+                <button
+                    className="flex items-center text-muted transition-colors hover:text-brand disabled:opacity-40"
+                    disabled={disabled}
+                    onClick={handleSubmit}
+                >
                     <span className="material-icons">save</span>
                 </button>
             </td> */}
-            <td>
-                <button className="icon-button delete-user" onClick={handleDeleteClick}>
+            <td className="px-4 py-3">
+                <button
+                    className="flex items-center text-muted transition-colors hover:text-brand"
+                    onClick={handleDeleteClick}
+                >
                     <span className="material-icons">delete</span>
                 </button>
             </td>

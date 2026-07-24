@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import "bootstrap/dist/css/bootstrap.css";
-import "react-tabs/style/react-tabs.css";
 import "@neondatabase/auth/ui/css";
 import "./globals.css";
 import { Providers } from "./providers";

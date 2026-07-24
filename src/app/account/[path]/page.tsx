@@ -14,5 +14,11 @@ export default async function AccountPage({
   params: Promise<{ path: string }>;
 }) {
   const { path } = await params;
-  return <AccountView path={path} />;
+  return (
+    <div className="w-full overflow-y-auto p-4">
+      <div className="mx-auto flex min-h-full max-w-2xl items-center justify-center">
+        <AccountView path={path} />
+      </div>
+    </div>
+  );
 }

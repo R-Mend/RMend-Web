@@ -12,11 +12,14 @@ export function ReportRow({ report }: { report: Report }) {
     };
 
     return (
-        <tr className="table-row rounded-pill" key={report.id}>
-            <td className="text-nowrap">{report.description}</td>
-            <td className="text-nowrap">{report.reporterContact}</td>
-            <td>
-                <button className="icon-button delete-user" onClick={handleDeleteClick}>
+        <tr className="border-b border-line/60 transition-colors hover:bg-elevated" key={report.id}>
+            <td className="px-4 py-3 whitespace-nowrap">{report.description}</td>
+            <td className="px-4 py-3 whitespace-nowrap">{report.reporterContact}</td>
+            <td className="px-4 py-3">
+                <button
+                    className="flex items-center text-muted transition-colors hover:text-brand"
+                    onClick={handleDeleteClick}
+                >
                     <span className="material-icons">delete</span>
                 </button>
             </td>

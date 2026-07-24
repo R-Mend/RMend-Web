@@ -39,15 +39,24 @@ function AppShell({ children }: { children: React.ReactNode }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
+    const alertClass =
+        alert.type === "error"
+            ? "border-red-500/40 bg-red-500/15 text-red-200"
+            : "border-emerald-500/40 bg-emerald-500/15 text-emerald-200";
+
     return (
-        <div className="h-100 d-flex justify-content-center" style={{ paddingTop: "58px" }}>
+        <div className="flex h-full flex-col">
             <Navbar />
-            {alert.message && (
-                <div style={{ position: "absolute" }}>
-                    <div className={`alert ${alert.type}`}>{alert.message}</div>
-                </div>
-            )}
-            {children}
+            <main className="relative flex grow justify-center overflow-hidden">
+                {alert.message && (
+                    <div className="absolute top-4 z-[1000]">
+                        <div className={`rounded-lg border px-4 py-2 text-sm shadow-lg ${alertClass}`}>
+                            {alert.message}
+                        </div>
+                    </div>
+                )}
+                {children}
+            </main>
         </div>
     );
 }

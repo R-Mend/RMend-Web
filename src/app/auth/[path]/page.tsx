@@ -12,5 +12,11 @@ export default async function AuthPage({
   params: Promise<{ path: string }>;
 }) {
   const { path } = await params;
-  return <AuthView path={path} />;
+  return (
+    <div className="w-full overflow-y-auto p-4">
+      <div className="mx-auto flex min-h-full max-w-md items-center justify-center">
+        <AuthView path={path} />
+      </div>
+    </div>
+  );
 }

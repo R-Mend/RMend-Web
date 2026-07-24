@@ -12,11 +12,11 @@ const alertSlice = createSlice({
     initialState,
     reducers: {
         success: (_state, action: PayloadAction<string>): IAlertState => ({
-            type: "alert-success",
+            type: "success",
             message: action.payload,
         }),
         error: (_state, action: PayloadAction<string>): IAlertState => ({
-            type: "alert-danger",
+            type: "error",
             message: action.payload,
         }),
         clear: (): IAlertState => ({}),
