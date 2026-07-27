@@ -6,6 +6,7 @@ import {
   point,
   boolean,
   integer,
+  primaryKey,
 } from 'drizzle-orm/pg-core';
 import { multiPolygon, timestamps } from './column.helpers';
 
@@ -43,6 +44,14 @@ export const IssueCategory = pgTable('issue_category', {
     slug: text().notNull(),
     ...timestamps
 });
+
+export const CoverageAreaCategory = pgTable('coverage_area_categories', {
+    coverageAreaId: uuid('coverage_area_id').notNull().references(() => CoverageArea.id, { onDelete: 'cascade' }),
+    issueCategoryId: uuid('issue_category_id').notNull().references(() => IssueCategory.id, { onDelete: 'cascade' }),
+    ...timestamps
+}, (table) => [
+    primaryKey({ columns: [table.coverageAreaId, table.issueCategoryId] }),
+]);
 
 export const regionTypeEnum = pgEnum('region_type', ['state', 'county', 'municipality']);
 
