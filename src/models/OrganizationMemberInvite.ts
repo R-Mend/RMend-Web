@@ -1,4 +1,4 @@
-export interface MemberInvite {
+export interface OrganizationMemberInvite {
     id: number;
     organizationId: number;
     userID: number;

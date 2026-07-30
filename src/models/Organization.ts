@@ -1,11 +1,8 @@
 export interface Organization {
-    id: number;
+    id: string;
     name: string;
-    regionID: string;
-    contactEmail: string;
     status: OrganizationStatus;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
 }
 
 export type OrganizationStatus = "onboarding" | "active" | "suspended";
