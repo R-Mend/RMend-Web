@@ -26,7 +26,7 @@ export const report = pgTable('report', {
     organizationId: uuid('organization_id'),
     status: reportStatusEnum(),
     createdBy: uuid('created_by'),
-    source: reportSourceEnum(),
+    source: reportSourceEnum('report_source'),
     reporterContact: text('reporter_contact'),
     description: text(),
     ...timestamps
