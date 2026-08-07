@@ -23,7 +23,7 @@ export const report = pgTable('report', {
     id: uuid('id').defaultRandom().primaryKey(),
     geom: point().notNull(),
     issueCategory: text('issue_category_id').notNull(),
-    organizationId: uuid('organization_id').notNull(),
+    organizationId: uuid('organization_id'),
     status: reportStatusEnum(),
     createdBy: uuid('created_by'),
     source: reportSourceEnum(),
