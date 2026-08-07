@@ -47,7 +47,7 @@ export const CoverageArea = pgTable('coverage_area', {
 // TODO: should this be tied to organization in to make creation and editing easier?
 export const IssueCategory = pgTable('issue_category', {
     id: uuid('id').defaultRandom().primaryKey(),
-    parentId: text('parent_id'),
+    parentId: uuid('parent_id'),
     name: text().notNull(),
     slug: text().notNull(),
     ...timestamps
