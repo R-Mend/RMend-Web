@@ -16,14 +16,18 @@ import { multiPolygon, timestamps } from './column.helpers';
 
 export const reportStatusEnum = pgEnum('report_status', ['new', 'triage', 'assigned', 'in_progress', 'resolved']);
 
+export const reportSourceEnum = pgEnum('source', ['staff', 'resident', 'anonymous'])
+
 // includes a custom alteration in the add_org_fk migration to cascade on organization deletion
 export const report = pgTable('report', {
     id: uuid('id').defaultRandom().primaryKey(),
     geom: point().notNull(),
     issueCategory: text('issue_category_id').notNull(),
-    organizationId: text('organization_id').notNull(),
+    organizationId: uuid('organization_id').notNull(),
     status: reportStatusEnum(),
-    reporterContact: text(), // TODO: consider updating to userId
+    createdBy: uuid('created_by'),
+    source: reportSourceEnum(),
+    reporterContact: text('reporter_contact'),
     description: text(),
     ...timestamps
 });
@@ -31,7 +35,7 @@ export const report = pgTable('report', {
 // includes a custom alteration in the add_org_fk migration to cascade on organization deletion
 export const CoverageArea = pgTable('coverage_area', {
     id: uuid('id').defaultRandom().primaryKey(),
-    organizationId: text('organization_id').notNull(),
+    organizationId: uuid('organization_id').notNull(),
     geom: multiPolygon("geom").notNull(),
     active: boolean().notNull(),
     priority: integer().default(0),

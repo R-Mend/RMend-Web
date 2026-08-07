@@ -1,1 +1,0 @@
-ALTER TABLE "coverage_area" ALTER COLUMN "geom" SET DATA TYPE geometry(MultiPolygon,4326) USING "geom"::geometry(MultiPolygon,4326);
