@@ -22,7 +22,7 @@ export const reportSourceEnum = pgEnum('source', ['staff', 'resident', 'anonymou
 export const report = pgTable('report', {
     id: uuid('id').defaultRandom().primaryKey(),
     geom: point('geom').notNull(),
-    issueCategory: text('issue_category_id').notNull(),
+    issueCategoryId: uuid('issue_category_id').notNull(),
     organizationId: uuid('organization_id'),
     status: reportStatusEnum(),
     createdBy: uuid('created_by'),
