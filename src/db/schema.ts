@@ -3,12 +3,12 @@ import {
   text,
   uuid,
   pgEnum,
-  point,
   boolean,
   integer,
   primaryKey,
+  index,
 } from 'drizzle-orm/pg-core';
-import { multiPolygon, timestamps } from './column.helpers';
+import { multiPolygon, point, timestamps } from './column.helpers';
 
 // ---------------------------------------------------------------------------
 // App tables (public schema) — managed by `drizzle-kit push`
@@ -21,7 +21,7 @@ export const reportSourceEnum = pgEnum('source', ['staff', 'resident', 'anonymou
 // includes a custom alteration in the add_org_fk migration to cascade on organization deletion
 export const report = pgTable('report', {
     id: uuid('id').defaultRandom().primaryKey(),
-    geom: point().notNull(),
+    geom: point('geom').notNull(),
     issueCategory: text('issue_category_id').notNull(),
     organizationId: uuid('organization_id'),
     status: reportStatusEnum(),
@@ -30,7 +30,9 @@ export const report = pgTable('report', {
     reporterContact: text('reporter_contact'),
     description: text(),
     ...timestamps
-});
+}, (table) => [
+    index('report_geom_idx').using('gist', table.geom),
+]);
 
 // includes a custom alteration in the add_org_fk migration to cascade on organization deletion
 export const CoverageArea = pgTable('coverage_area', {

@@ -1,10 +1,22 @@
 import { customType, timestamp } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { MultiPolygon } from "@/models/geojson/Geometry";
+import { MultiPolygon, Point } from "@/models/geojson/Geometry";
 
 export const multiPolygon = customType<{ data: MultiPolygon; driverData: string }>({
   dataType() {
     return "geometry(MultiPolygon,4326)";
+  },
+  toDriver(value) {
+    return sql`ST_GeomFromGeoJSON(${JSON.stringify(value)})`;
+  },
+  fromDriver(value) {
+    return JSON.parse(value);
+  },
+});
+
+export const point = customType<{ data: Point; driverData: string }>({
+  dataType() {
+    return "geometry(Point,4326)";
   },
   toDriver(value) {
     return sql`ST_GeomFromGeoJSON(${JSON.stringify(value)})`;
